@@ -1,0 +1,55 @@
+package com.example.rocketelevators
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import com.google.gson.GsonBuilder
+import okhttp3.*
+import java.io.IOException
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Variables
+        val emailEditText = findViewById<EditText>(R.id.emailEditText)
+        val loginBtn = findViewById<Button>(R.id.loginBtn)
+        val attemptTextView = findViewById<TextView>(R.id.attemptTextView)
+
+        // set on-click listener
+        loginBtn.setOnClickListener {
+            println("Attempting to fetch JSON...")
+            val request = Request.Builder().url("https://restapi-codeboxx.herokuapp.com/api/Employee").build()
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object: Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    val body = response.body?.string()
+                    println(body)
+                    val gson = GsonBuilder().create()
+                    var staff = gson.fromJson(body, Array<Staff>::class.java)
+//                    println(staff[2].email)
+                        staff.forEachIndexed { index, element ->
+                            println(index)
+                        // Email validation => link to the ElevatorListActivity
+                        if (emailEditText.text.toString() == element[index].email ) {
+                            val intent = startActivity(Intent(this@MainActivity, ElevatorListActivity::class.java))
+                        } else {
+                            runOnUiThread {
+                                attemptTextView.text = "Sorry, the password or username is incorrect. Please try again."
+                            }
+                        }
+                    }
+                }
+                override fun onFailure(call: Call, e: IOException) {
+                    println("Failed to execute request")
+                }
+            }) // End of the api call
+        } // End of click listener
+    } // End of onCreate function
+} // End of mainActivity class
+class Staff(val id: Int, val email: String, val firstName: String, val lastName: String)
