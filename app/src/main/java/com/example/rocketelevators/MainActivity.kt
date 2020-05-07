@@ -23,20 +23,18 @@ class MainActivity : AppCompatActivity() {
 
         // set on-click listener
         loginBtn.setOnClickListener {
-            println("Attempting to fetch JSON...")
+            println("Attempting to fetch JSON - MainActivity...")
             val request = Request.Builder().url("https://restapi-codeboxx.herokuapp.com/api/Employee").build()
             val client = OkHttpClient()
             client.newCall(request).enqueue(object: Callback {
                 override fun onResponse(call: Call, response: Response) {
                     val body = response.body?.string()
-                    println(body)
                     val gson = GsonBuilder().create()
                     var staff = gson.fromJson(body, Array<Staff>::class.java)
 //                    println(staff[2].email)
                         staff.forEachIndexed { index, element ->
-                            println(index)
                         // Email validation => link to the ElevatorListActivity
-                        if (emailEditText.text.toString() == element[index].email ) {
+                        if (emailEditText.text.toString() == staff[index].email ) {
                             val intent = startActivity(Intent(this@MainActivity, ElevatorListActivity::class.java))
                         } else {
                             runOnUiThread {
@@ -46,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 override fun onFailure(call: Call, e: IOException) {
-                    println("Failed to execute request")
+                    println("Failed to execute request - MainActivity")
                 }
             }) // End of the api call
         } // End of click listener
