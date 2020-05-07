@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 //                    println(staff[2].email)
                         staff.forEachIndexed { index, element ->
                         // Email validation => link to the ElevatorListActivity
-                        if (emailEditText.text.toString() == staff[index].email ) {
+                        if (emailEditText.text.toString().toLowerCase() == staff[index].email.toLowerCase() ) {
                             val intent = startActivity(Intent(this@MainActivity, ElevatorListActivity::class.java))
                         } else {
                             runOnUiThread {

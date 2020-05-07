@@ -1,6 +1,7 @@
 package com.example.rocketelevators
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,9 +26,13 @@ class ElevatorListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_elevator_list)
 
         recycleView_main.layoutManager = LinearLayoutManager(this)
-//        recycleView_main.adapter = MainAdapter()
-
         fetchJson()
+
+        // Logout Button
+        val logoutBTn = findViewById<Button>(R.id.logoutBtn)
+        logoutBTn.setOnClickListener {
+            val intent = startActivity(Intent(this, MainActivity::class.java))
+        }
 
     } // End of onCreate
 
@@ -52,9 +57,8 @@ class ElevatorListActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 println("FAiled to execute request - ElevatorListActivity")
             }
-        })
-    }
+        }) // End of api call
+    } // End of fetchjson()
 }   // End of the class
 
 class Elevator(val id: Int, val serial_number: String, val model: String)
-
