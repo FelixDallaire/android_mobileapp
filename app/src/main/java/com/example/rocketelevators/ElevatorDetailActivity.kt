@@ -109,20 +109,20 @@ class ElevatorDetailActivity  : AppCompatActivity() {
                         }
                         override fun onResponse(call: Call, response: Response) {
                             println("Elevator ${choosenElevator_id} is now active")
+                            Timer("ShowBackToListButton", false).schedule(1000) {
+                                holder.customView.backToList_btn.isClickable = true
+                                holder.customView.backToList_btn.setTextColor(Color.parseColor("#45B649")) // Green
+                            }
                         }
                     })
                 }
 
                 endTaskBtn.setOnClickListener {
                     setElevatorActive()
-                    holder.customView.elevator_status_TextView.text = "Active"
-                    holder.customView.statusContainerCardView.setBackgroundResource(R.drawable.card_wallpaper_gradient_light_green)
+                        holder.customView.elevator_status_TextView.text = "Active"
+                        holder.customView.statusContainerCardView.setBackgroundResource(R.drawable.card_wallpaper_gradient_light_green)
 
                     val backToList_btn = holder.customView.findViewById<Button>(R.id.backToList_btn)
-                    Timer("ShowBackToListButton", false).schedule(1000) {
-                        backToList_btn.isClickable = true
-                        backToList_btn.setTextColor(Color.parseColor("#45B649")) // Green
-                    }
                     (checked_ImageView.drawable as AnimatedVectorDrawable).start()
 
                     backToList_btn.setOnClickListener {
