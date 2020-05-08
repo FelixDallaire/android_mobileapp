@@ -33,6 +33,8 @@ import kotlin.concurrent.schedule
 
 
 class ElevatorDetailActivity  : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,11 +51,11 @@ class ElevatorDetailActivity  : AppCompatActivity() {
         logoutBTn.setOnClickListener {
             val intent = startActivity(Intent(this, MainActivity::class.java))
         }
-        fetchJson()
+        setElevatorStatus()
 
     } // End of onCreate
 
-  private fun  fetchJson() {
+  private fun  setElevatorStatus() {
             val choosenElevator_id = intent.getIntExtra(CustomViewHolder.choosenElevator_id_key, -1)
             val elevatorDetail_url = "https://restapi-codeboxx.herokuapp.com/api/Elevator/${choosenElevator_id}"
 
@@ -72,7 +74,7 @@ class ElevatorDetailActivity  : AppCompatActivity() {
                     print("Failed to execute the request - ElevatorDetailActivity")
                 }
             })
-        } // End of fetchJson
+        } // End of setElevatorStatus
 
         private class ElevatorDetailsdapter(val choosenElevator: ChoosenElevator): RecyclerView
             .Adapter<ElevatorInformationsViewHolder>(){
@@ -117,10 +119,34 @@ class ElevatorDetailActivity  : AppCompatActivity() {
                     })
                 }
 
+                fun getElevatorStatus(){
+                    println("Attempting to fetch JSON - ElevatorListActivity...")
+
+                    var url = "https://restapi-codeboxx.herokuapp.com/api/Elevator/${choosenElevator_id}"
+                    val request = Request.Builder().url(url).build()
+                    var client = OkHttpClient()
+                    client.newCall(request).enqueue(object: Callback{
+                        override fun onResponse(call: Call, response: Response) {
+                            val body = response?.body?.string()
+
+                            val gson = GsonBuilder().create()
+                            val elevator = gson.fromJson(body, ChoosenElevator::class.java)
+
+                            if (elevator.status.toString() == "Active"){
+                                holder.customView.statusContainerCardView.setBackgroundResource(R.drawable.card_wallpaper_gradient_light_green)
+                            }
+                        }
+
+                        override fun onFailure(call: Call, e: IOException) {
+                            println("FAiled to execute request - ElevatorListActivity")
+                        }
+                    }) // End of api call
+                } // End of fetchjson()
+
                 endTaskBtn.setOnClickListener {
                     setElevatorActive()
-                        holder.customView.elevator_status_TextView.text = "Active"
-                        holder.customView.statusContainerCardView.setBackgroundResource(R.drawable.card_wallpaper_gradient_light_green)
+                    getElevatorStatus()
+                            holder.customView.elevator_status_TextView.text = "Active"
 
                     val backToList_btn = holder.customView.findViewById<Button>(R.id.backToList_btn)
                     (checked_ImageView.drawable as AnimatedVectorDrawable).start()

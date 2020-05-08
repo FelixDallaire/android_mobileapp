@@ -3,12 +3,14 @@ package com.example.rocketelevators
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_elevator_list.*
@@ -20,20 +22,30 @@ import kotlin.collections.ArrayList
 
 class ElevatorListActivity : AppCompatActivity() {
 
+    override fun onStop() {
+        super.onStop()
+        fetchJson()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        fetchJson()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elevator_list)
 
-        recycleView_main.layoutManager = LinearLayoutManager(this)
+
+
         fetchJson()
+        recycleView_main.layoutManager = LinearLayoutManager(this)
 
         // Logout Button
         val logoutBTn = findViewById<Button>(R.id.logoutBtn)
         logoutBTn.setOnClickListener {
             val intent = startActivity(Intent(this, MainActivity::class.java))
         }
-
     } // End of onCreate
 
     fun fetchJson(){

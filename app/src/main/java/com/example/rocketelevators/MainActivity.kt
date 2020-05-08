@@ -34,17 +34,24 @@ class MainActivity : AppCompatActivity() {
                     val body = response.body?.string()
                     val gson = GsonBuilder().create()
                     var staff = gson.fromJson(body, Array<Staff>::class.java)
-//                    println(staff[2].email)
-                        staff.forEachIndexed { index, element ->
-                        // Email validation => link to the ElevatorListActivity
-                        if (emailEditText.text.toString().toLowerCase() == staff[index].email.toLowerCase() ) {
-                            val intent = startActivity(Intent(this@MainActivity, ElevatorListActivity::class.java))
-                        } else {
-                            runOnUiThread {
-                                Timer("ShowFailedAttemptMessage", false).schedule(1000) {
-                                    attemptTextView.text = "Sorry, the email entered is not the email of a listed agent."
-                                }
-                            }
+//
+                    var emailList: MutableList<String> = mutableListOf<String>()
+                    staff.forEachIndexed { index, element ->
+                        emailList.add(staff[index].email.toLowerCase())
+                    }
+                    if ( emailList.contains(emailEditText.text.toString().toLowerCase()) == true){
+                        val intent = startActivity(Intent(this@MainActivity, ElevatorListActivity::class.java))
+                    } else if (emailEditText.text.toString().toLowerCase().contains("@") == false){
+                      runOnUiThread {
+                          attemptTextView.text = "Please enter a valid email."
+                      }
+                    } else if (emailEditText.text.toString().toLowerCase().isEmpty() == true){
+                        runOnUiThread {
+                            attemptTextView.text = "Please enter a valid email."
+                        }
+                    } else {
+                        runOnUiThread {
+                            attemptTextView.text = "Sorry, the email entered is not the email of a listed agent."
                         }
                     }
                 }
