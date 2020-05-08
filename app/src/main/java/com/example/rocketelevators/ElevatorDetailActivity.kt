@@ -145,7 +145,9 @@ class ElevatorDetailActivity  : AppCompatActivity() {
 
                 endTaskBtn.setOnClickListener {
                     setElevatorActive()
-                    getElevatorStatus()
+                    Timer("SettingUp", false).schedule(500) {
+                        getElevatorStatus()
+                    }
                             holder.customView.elevator_status_TextView.text = "Active"
 
                     val backToList_btn = holder.customView.findViewById<Button>(R.id.backToList_btn)
