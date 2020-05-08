@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RocketElevators</string>
+    <string name="underlined_BackToList_btn_text"><u>Verify another one?</u></string>
 </resources>

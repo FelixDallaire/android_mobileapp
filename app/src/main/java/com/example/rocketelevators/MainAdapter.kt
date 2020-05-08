@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,7 +34,7 @@ class MainAdapter(val elevator: Array<Elevator>): RecyclerView.Adapter<CustomVie
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 
         holder?.view?.textView_elevatorID.text = "Elevator " + elevator[position].id.toString()
-        holder?.view?.textView_serialNumber?.text = "Serial Number:" + elevator[position].serial_number
+        holder?.view?.textView_serialNumber?.text = "Serial Number: " + elevator[position].serial_number
         holder?.view?.textView_model?.text = elevator[position].model
 
         holder?.elevator = elevator[position]
@@ -48,7 +49,7 @@ class CustomViewHolder(val view: View, var elevator: Elevator? = null): Recycler
     }
     
     init {
-        val info_floatingActionButton = view.findViewById<FloatingActionButton>(R.id.info_floatingActionButton)
+        val info_floatingActionButton = view.findViewById<ImageView>(R.id.info_Btn)
         info_floatingActionButton.setOnClickListener {
             val intent = Intent(view.context, ElevatorDetailActivity::class.java)
             intent.putExtra(choosenElevator_title_key,"Elevator " + elevator?.id)

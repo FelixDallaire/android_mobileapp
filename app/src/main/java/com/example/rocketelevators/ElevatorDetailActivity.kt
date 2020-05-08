@@ -1,14 +1,21 @@
 package com.example.rocketelevators
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rocketelevators.R.layout
@@ -18,12 +25,13 @@ import kotlinx.android.synthetic.main.elevator_information_row.view.*
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 
 
 class ElevatorDetailActivity  : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         setContentView(layout.activity_elevator_list)
 
@@ -81,35 +89,47 @@ class ElevatorDetailActivity  : AppCompatActivity() {
             // Set value to items
             override fun onBindViewHolder(holder: ElevatorInformationsViewHolder, position: Int) {
                 val endTaskBtn = holder.customView.endTaskBtn
+                val checked_ImageView = holder.customView.checked_ImageView
+                val choosenElevator_id = choosenElevator.id
+
+                fun setElevatorActive() {
+                    val elevatorDetail_url = "https://restapi-codeboxx.herokuapp.com/api/Elevator/Active/${choosenElevator_id}"
+                    val content = ""
+
+                    val client = OkHttpClient()
+                    val body = content.toRequestBody()
+
+                    val request = Request.Builder().url(elevatorDetail_url).put(body).build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            println("Failed to execute the request of type PUT - elevator_information_row")
+                        }
+                        override fun onResponse(call: Call, response: Response) {
+                            println("Elevator ${choosenElevator_id} is now active")
+                        }
+                    })
+                }
+
                 endTaskBtn.setOnClickListener {
-                    fun setElevatorActive() {
-                        val choosenElevator_id = choosenElevator.id
-                        val elevatorDetail_url = "https://restapi-codeboxx.herokuapp.com/api/Elevator/Active/${choosenElevator_id}"
-                        val payload = ""
-
-                        val client = OkHttpClient()
-                        val body = payload.toRequestBody()
-
-                        val request = Request.Builder().url(elevatorDetail_url).put(body).build()
-                        client.newCall(request).enqueue(object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
-                                // Handle this
-                            }
-                            override fun onResponse(call: Call, response: Response) {
-                                println("Elevator ${choosenElevator_id} is now active")
-                                holder.customView.statusContainerCardView.setCardBackgroundColor(Color.parseColor("#B0F279"))
-                                holder.customView.elevator_status_TextView.text = "Active"
-                            }
-                        })
-                    }
                     setElevatorActive()
+                    holder.customView.elevator_status_TextView.text = "Active"
+                    holder.customView.statusContainerCardView.setImageResource(R.drawable.gradient_light_green)
+
+                    val backToList_btn = holder.customView.findViewById<Button>(R.id.backToList_btn)
+                    backToList_btn.isClickable = true
+                    backToList_btn.setTextColor(Color.parseColor("#388E3C")) // Green
+
+                    backToList_btn.setOnClickListener {
+                        val intent = Intent(holder.customView.context, ElevatorListActivity::class.java)
+                        holder.customView.context.startActivity(intent)
+                    }
+                    (checked_ImageView.drawable as AnimatedVectorDrawable).start()
                 }
                 holder.customView.elevator_status_TextView.text = choosenElevator.status
                 if (choosenElevator.status == "Inactive"){
-                    holder.customView.statusContainerCardView.setCardBackgroundColor(Color.parseColor("#F44141"))
+                    holder.customView.statusContainerCardView.setImageResource(R.drawable.gradient_pinkish_red) // Red
                 } else {
-                    holder.customView.statusContainerCardView.setCardBackgroundColor(
-                        Color.parseColor("#EBA044"))
+                    holder.customView.statusContainerCardView.setImageResource(R.drawable.gradient_orange_sunset)
                 }
             } // End of onBindViewHol
         } // End of class ElevatorDetailsdapter

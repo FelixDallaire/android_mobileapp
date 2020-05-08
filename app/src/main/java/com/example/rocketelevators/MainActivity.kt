@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                             val intent = startActivity(Intent(this@MainActivity, ElevatorListActivity::class.java))
                         } else {
                             runOnUiThread {
-                                attemptTextView.text = "Sorry, the password or username is incorrect. Please try again."
+                                attemptTextView.text = "Sorry, the password or username is incorrect."
                             }
                         }
                     }
