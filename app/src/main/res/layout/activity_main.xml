@@ -23,6 +23,7 @@
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
@@ -30,10 +31,11 @@
         android:inputType="textPersonName"
         android:textColor="#212121"
         android:textColorHint="#59000000"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView11"
-        app:layout_constraintHorizontal_bias="0.106"
+        app:layout_constraintHorizontal_bias="0.113"
         app:layout_constraintStart_toStartOf="@+id/imageView11"
-        app:layout_constraintTop_toBottomOf="@+id/attemptTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
 
     <TextView
         android:id="@+id/welcomeTextView"
@@ -53,26 +55,24 @@
         android:id="@+id/loginBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:background="@drawable/card_wallpaper_gradient_pinkish_red"
         android:text="Sign In"
         android:textAllCaps="false"
-        android:textColor="#212121"
+        android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/emailEditText"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/attemptTextView" />
 
     <TextView
         android:id="@+id/attemptTextView"
-        android:layout_width="0dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="274dp"
+        android:layout_height="42dp"
         android:text=" "
-        android:textColor="#8A152A"
+        android:textColor="#B13249"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/emailEditText"
         app:layout_constraintStart_toStartOf="@+id/emailEditText"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,9 @@
         android:layout_height="52dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/background_button_pinkish_red"
         android:text="End task"
+        android:textColor="#F47259"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/statusContainerCardView"
         app:layout_constraintTop_toBottomOf="@+id/statusContainerCardView" />
@@ -40,11 +42,11 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:background="@drawable/card_wallpaper_gradient_blue_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/gradient_orange_sunset" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/elevator_status_TextView"

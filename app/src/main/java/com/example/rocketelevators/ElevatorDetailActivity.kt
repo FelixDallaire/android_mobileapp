@@ -25,6 +25,9 @@ import kotlinx.android.synthetic.main.elevator_information_row.view.*
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
+import java.util.*
+import kotlin.concurrent.schedule
+
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 
 
@@ -113,23 +116,25 @@ class ElevatorDetailActivity  : AppCompatActivity() {
                 endTaskBtn.setOnClickListener {
                     setElevatorActive()
                     holder.customView.elevator_status_TextView.text = "Active"
-                    holder.customView.statusContainerCardView.setImageResource(R.drawable.gradient_light_green)
+                    holder.customView.statusContainerCardView.setBackgroundResource(R.drawable.card_wallpaper_gradient_light_green)
 
                     val backToList_btn = holder.customView.findViewById<Button>(R.id.backToList_btn)
-                    backToList_btn.isClickable = true
-                    backToList_btn.setTextColor(Color.parseColor("#388E3C")) // Green
+                    Timer("ShowBackToListButton", false).schedule(1000) {
+                        backToList_btn.isClickable = true
+                        backToList_btn.setTextColor(Color.parseColor("#45B649")) // Green
+                    }
+                    (checked_ImageView.drawable as AnimatedVectorDrawable).start()
 
                     backToList_btn.setOnClickListener {
                         val intent = Intent(holder.customView.context, ElevatorListActivity::class.java)
                         holder.customView.context.startActivity(intent)
                     }
-                    (checked_ImageView.drawable as AnimatedVectorDrawable).start()
                 }
                 holder.customView.elevator_status_TextView.text = choosenElevator.status
                 if (choosenElevator.status == "Inactive"){
-                    holder.customView.statusContainerCardView.setImageResource(R.drawable.gradient_pinkish_red) // Red
+                    holder.customView.statusContainerCardView.setBackgroundResource(R.drawable.card_wallpaper_gradient_pinkish_red)
                 } else {
-                    holder.customView.statusContainerCardView.setImageResource(R.drawable.gradient_orange_sunset)
+                    holder.customView.statusContainerCardView.setBackgroundResource(R.drawable.card_wallpaper_gradient_orange_sunset)
                 }
             } // End of onBindViewHol
         } // End of class ElevatorDetailsdapter

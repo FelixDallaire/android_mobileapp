@@ -9,6 +9,8 @@ import android.widget.TextView
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
+import java.util.*
+import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
             val client = OkHttpClient()
             client.newCall(request).enqueue(object: Callback {
                 override fun onResponse(call: Call, response: Response) {
+                    runOnUiThread { attemptTextView.text = "" }
                     val body = response.body?.string()
                     val gson = GsonBuilder().create()
                     var staff = gson.fromJson(body, Array<Staff>::class.java)
@@ -38,7 +41,9 @@ class MainActivity : AppCompatActivity() {
                             val intent = startActivity(Intent(this@MainActivity, ElevatorListActivity::class.java))
                         } else {
                             runOnUiThread {
-                                attemptTextView.text = "Sorry, the password or username is incorrect."
+                                Timer("ShowFailedAttemptMessage", false).schedule(1000) {
+                                    attemptTextView.text = "Sorry, the email entered is not the email of a listed agent."
+                                }
                             }
                         }
                     }
