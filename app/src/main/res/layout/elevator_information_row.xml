@@ -7,7 +7,7 @@
 
     <Button
         android:id="@+id/endTaskBtn"
-        android:layout_width="159dp"
+        android:layout_width="225dp"
         android:layout_height="52dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
@@ -35,7 +35,7 @@
 
     <ImageView
         android:id="@+id/statusContainerCardView"
-        android:layout_width="370dp"
+        android:layout_width="0dp"
         android:layout_height="117dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"

@@ -36,8 +36,6 @@ class ElevatorListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_elevator_list)
 
-
-
         fetchJson()
         recycleView_main.layoutManager = LinearLayoutManager(this)
 

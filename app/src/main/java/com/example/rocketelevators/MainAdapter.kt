@@ -49,8 +49,8 @@ class CustomViewHolder(val view: View, var elevator: Elevator? = null): Recycler
     }
     
     init {
-        val info_floatingActionButton = view.findViewById<ImageView>(R.id.info_Btn)
-        info_floatingActionButton.setOnClickListener {
+        val container_elevator_card_ImageView = view.findViewById<ImageView>(R.id.container_elevator_card_ImageView)
+        container_elevator_card_ImageView.setOnClickListener {
             val intent = Intent(view.context, ElevatorDetailActivity::class.java)
             intent.putExtra(choosenElevator_title_key,"Elevator " + elevator?.id)
             intent.putExtra(choosenElevator_id_key, elevator?.id)
