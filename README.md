@@ -9,13 +9,13 @@
   Ice Cream Sandwich
 
 # Rest API - Request collection
-  GET http://restapi-codeboxx.herokuapp.com/api/
+  - GET http://restapi-codeboxx.herokuapp.com/api/
 
-  GET http://restapi-codeboxx.herokuapp.com/api/Elevator/[id]
-  GET http://restapi-codeboxx.herokuapp.com/api/Elevator/Nonoperational
-  PUT https://restapi-codeboxx.herokuapp.com/api/Elevator/Active/[id]
+  - GET http://restapi-codeboxx.herokuapp.com/api/Elevator/[id]
+  - GET http://restapi-codeboxx.herokuapp.com/api/Elevator/Nonoperational
+  - PUT https://restapi-codeboxx.herokuapp.com/api/Elevator/Active/[id]
 
-  GET http://restapi-codeboxx.herokuapp.com/api/Employee
+  - GET http://restapi-codeboxx.herokuapp.com/api/Employee
 
 
-PS.: I haven't got time to complete a IOS application but will work on making one with flutter.
+#### PS.: I haven't got time to complete a IOS application but will work on making one with flutter.
